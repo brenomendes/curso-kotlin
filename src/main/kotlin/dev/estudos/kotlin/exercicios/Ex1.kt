@@ -2,26 +2,58 @@ package dev.estudos.kotlin.exercicios
 
 import kotlin.math.pow
 import kotlin.math.sqrt
+import kotlin.system.exitProcess
 
 
 fun main(){
-	val p1 = Ponto(x1, x2)
-	val p2 = Ponto(y1, y2)
+	println("""
+        Programa para Calculo de distancia de dois pontos quaisquer em um plano: P(x1,y1) e P(x2,y2).
+        Informe os pontos x1, y1, x2 e y2.
+    """.trimIndent())
 
+	val x1 = readInt(msg = "Digite o valor de x1: ")
+	val y1 = readInt(msg = "Digite o valor de y1: ")
+	val x2 = readInt(msg = "Digite o valor de x2: ")
+	val y2 = readInt(msg = "Digite o valor de y2: ")
 
-	calculaDistancia(p1,p2)
+	val p1 = Ponto(x1, y1)
+	val p2 = Ponto(x2, y2)
+
+	val distancia = calculaDistancia(p1, p2)
+
+	println("Distancia Calculada: $distancia")
+
+	println("Programa terminado. Obrigado!!!")
 }
 
-class Ponto(val x: Int, val y: Int)
+class Ponto ( val x: Int, val y: Int )
 
 fun calculaDistancia(p1: Ponto, p2: Ponto): Int {
 
-	val x2MenosX1 = (p2.x - p1.x).toDouble();
-	val y2MenosY1 = (p2.y - p1.y).toDouble();
+	val x2MenosX1 = (p2.x - p1.x).toDouble()
+	val y2MenosY1 = (p2.y - p1.y).toDouble()
 
-	val valor: Double = x2MenosX1.pow(2) + y2MenosY1.pow(2)
+	val distancia = sqrt(x2MenosX1.pow(2) + y2MenosY1.pow(2))
 
-	val result = sqrt(valor);
+	return distancia.toInt()
+}
 
-	return result.toInt()
+fun readInt(msg: String): Int {
+	print(msg)
+
+	val valorDigitado = readLine()
+
+	if (valorDigitado.isNullOrEmpty()) {
+		println("Nenhum valor informado. O programa será encerrado.")
+		exitProcess(0)
+	}
+
+	val valor = try {
+		valorDigitado?.toInt()
+	} catch(e: NumberFormatException) {
+		println("Informe um valor correto!")
+		return readInt(msg)
+	}
+
+	return valor!!
 }
